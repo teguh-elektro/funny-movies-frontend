@@ -14,7 +14,17 @@
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
+    <link rel="stylesheet" id="css-main" href="%PUBLIC_URL%/assets/css/codebase.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -40,4 +50,18 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+  <script src="%PUBLIC_URL%/assets/js/codebase.core.min.js"></script>
+
+  <!--
+      Codebase JS
+      Custom functionality including Blocks/Layout API as well as other vital and optional helpers
+      webpack is putting everything together at assets/_es6/main/app.js
+  -->
+  <script src="%PUBLIC_URL%/assets/js/codebase.app.min.js"></script>
+
+  <!-- Page JS Plugins -->
+  <script src="%PUBLIC_URL%/assets/js/plugins/chartjs/Chart.bundle.min.js"></script>
+
+  <!-- Page JS Code -->
+  <script src="%PUBLIC_URL%/assets/js/pages/be_pages_dashboard.min.js"></script>
 </html>
