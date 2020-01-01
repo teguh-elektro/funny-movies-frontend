@@ -4,6 +4,8 @@ import {Link, Route} from 'react-router-dom'
 import axios from 'axios'
 
 const API_URL = "http://localhost:3000"
+
+
 class Share extends React.Component {
     constructor(props) {
         super(props);
@@ -11,6 +13,26 @@ class Share extends React.Component {
             url: '',
         }
         this.handleChange = this.handleChange.bind(this);
+    }
+
+    
+    async getDataYoutube(id){
+        try{
+            const response = await axios({
+                method: 'get',
+                url: 'https://www.googleapis.com/youtube/v3/videos',
+                params: {
+                  part: "snippet",
+                  key: 'AIzaSyApCy9eVPhWHQC_32uJDRX-tbwCSlHjWys',
+                  id: id
+                }
+            });
+
+            const data = await response.data.items[0].snippet.localized;
+            return(data)
+        }catch(error){
+            
+        }
     }
 
     async sendLogout(){
@@ -48,13 +70,20 @@ class Share extends React.Component {
 
     async newMovie (){
         try{
+            const youtube_id = this.state.url.split("v=")
+            console.log(youtube_id);
             let id = localStorage.getItem('id');
+            const data = await this.getDataYoutube(youtube_id[1])
+            console.log(data);
+            const text = data.description.substr(0, 254);
             const response = await axios({
                 method: 'post',
                 url: API_URL+'/movie',
                 data: {
-                  link: this.state.url,
-                  id: id
+                  link: youtube_id[1],
+                  id: id,
+                  description: text,
+                  title: data.title
                 }
               });
         }catch(error){

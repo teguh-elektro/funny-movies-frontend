@@ -4,7 +4,6 @@ import {AiOutlineLike, AiOutlineDislike} from "react-icons/ai"
 import YouTube from 'react-youtube';
 import {Link} from 'react-router-dom'
 import axios from 'axios'
-import queryString from 'query-string'
 
 const API_URL = "http://localhost:3000"
 class Home extends React.Component {
@@ -14,16 +13,33 @@ class Home extends React.Component {
           email: '',
           password: '',
           isLogin: '0',
-          movies: []
+          movies: [],
+          youtube_data: []
         }
         this.handleChange = this.handleChange.bind(this);
         this.sendLogin = this.sendLogin.bind(this);
     }
 
-    componentDidMount(){
+    async sendlike(status, id){
+        try{
+            const response = await axios({
+                method: 'put',
+                url: API_URL+'/movie',
+                data:{
+                    movie_id: id,
+                    data: status
+                }
+              });
+              this.movieList()
+        }catch(error){
+            console.error(error);
+            
+        }
+    }
+
+    async componentDidMount(){
         this.movieList()
         let login = localStorage.getItem('Login');
-        console.log(login);
         
         if(login == '1'){
             this.setState({
@@ -42,12 +58,11 @@ class Home extends React.Component {
                 method: 'get',
                 url: API_URL+'/movie'
               });
-              console.log(response.data.result.movies);
-              this.setState({
+              await this.setState({
                   movies: response.data.result.movies
               })
         }catch(error){
-            console.log(error);
+            console.error(error);
             
         }
     }
@@ -74,7 +89,6 @@ class Home extends React.Component {
                   id: id
                 }
               });
-              console.log(response);
               localStorage.setItem("Login", '0');
               this.setState({
                 isLogin: '0'
@@ -94,7 +108,6 @@ class Home extends React.Component {
               password: this.state.password
             }
           });
-          console.log(response.data.result.data[0]);
           let data = response.data.result.data[0]
           const {
               id,
@@ -108,39 +121,17 @@ class Home extends React.Component {
             isLogin: '1'
           })
           }catch(error) {
-            console.log(error);
             this.setState({
               isLogin: '0'
             })
           }
       }
 
-    async getDataYoutube(id){
-        try{
-            const parsed = queryString.parse(id);
-            console.log(parsed);
-            const response = await axios({
-                method: 'get',
-                url: 'https://www.googleapis.com/youtube/v3/videos',
-                params: {
-                  part: "snippet",
-                  key: 'AIzaSyApCy9eVPhWHQC_32uJDRX-tbwCSlHjWys',
-                  id: parsed
-                }
-            });
-            const data = response.data.items[0];
-            console.log(data.snippet.localized.title);
-            return(data.snippet.localized)
-        }catch(error){
-            console.log(error);
-        }
-    }
-
     _onReady(event) {
         event.target.pauseVideo();
       }
 
-    render(){
+      render (){
         const opts = {
             height: '320',
             width: '480',
@@ -148,7 +139,7 @@ class Home extends React.Component {
             autoplay: 0
             }
         };
-        this.getDataYoutube("2g811Eo7K8U")
+        
         const user = localStorage.getItem('email');
         return (
             <div>
@@ -218,22 +209,33 @@ class Home extends React.Component {
                                 <div className="row no-gutters">
                                 <div className="col-md-4 ml-3 mt-1" style={{width: 490}}>
                                 <YouTube
-                                    videoId="2g811Eo7K8U"
+                                    videoId={movie.link}
                                     opts={opts}
                                     onReady={this._onReady}
                                 />
                                 </div>
                                 <div className="col-md-4" style={{position:"absolute", marginLeft: 500}}>
                                     <div className="card-body">
-                                    <h5 className="card-title">Card title</h5>
-                                    <p className="card-text">
-                                        Shared by: someone@gmail.com
+                                    <h5 className="card-title">{movie.title}</h5>
+                                    <p className="card-text" style={{height:400}}>
+                                        Shared by: {movie.email}
                                         <br/> 
-                                        <span style={{fontSize:16}}>{movie.likes}</span> <AiOutlineDislike style={{fontSize:25}}/>
-                                        <span style={{fontSize:16, marginLeft:20}}>{movie.unlikes}</span> <AiOutlineLike style={{fontSize:25}}/>
+                                        <span style={{fontSize:16}}>{movie.likes}</span> 
+                                        <button 
+                                            onClick={() => {this.sendlike("likes", movie.id)}}
+                                            style={{marginLeft:5}}
+                                        >
+                                                <AiOutlineLike style={{fontSize:25}}/>
+                                        </button>
+                                        <span style={{fontSize:16, marginLeft:20}}>{movie.unlikes}</span> 
+                                        <button 
+                                            onClick={() => {this.sendlike("unlikes", movie.id)}}
+                                            style={{marginLeft:5}}
+                                        >
+                                            <AiOutlineDislike style={{fontSize:25}}/>
+                                        </button>
                                         <br/><b>Description:</b>
-                                        <br/>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
+                                        <br/>{movie.description}</p>
                                     </div>
                                 </div>
                                 </div>
