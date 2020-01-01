@@ -3,7 +3,7 @@ import { FaHome } from "react-icons/fa";
 import {Link, Route} from 'react-router-dom'
 import axios from 'axios'
 
-const API_URL = "http://localhost:3000"
+const API_URL = "http://18.233.99.1:3100"
 
 
 class Share extends React.Component {

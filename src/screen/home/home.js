@@ -5,7 +5,7 @@ import YouTube from 'react-youtube';
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 
-const API_URL = "http://localhost:3000"
+const API_URL = "http://18.233.99.1:3100"
 class Home extends React.Component {
     constructor(props) {
         super(props);
