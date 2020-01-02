@@ -1,16 +1,16 @@
 import React from 'react';
 import { FaHome } from "react-icons/fa";
-import {Link, Route} from 'react-router-dom'
+import {Link, Route, Redirect} from 'react-router-dom'
 import axios from 'axios'
 
 const API_URL = "http://18.233.99.1:3100"
-
 
 class Share extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
             url: '',
+            isSend: 0
         }
         this.handleChange = this.handleChange.bind(this);
     }
@@ -86,6 +86,9 @@ class Share extends React.Component {
                   title: data.title
                 }
               });
+              this.setState({
+                isSend: 1
+              })
         }catch(error){
             console.log(error);
         }
@@ -95,11 +98,12 @@ class Share extends React.Component {
         const user = localStorage.getItem('email');
       return (
         <div>
+          {(this.state.isSend == '1')&&<Redirect push to='/'></Redirect>}
           <header className="App-header">
           <nav className="navbar navbar-light bg-light">
-            <a className="navbar-brand d-flex" style={{fontSize: 30, flex: 1}} href="/">
+            <Link to={'/'} style={{fontSize: 30, flex: 1, color:"black"}} >
             <FaHome style={{fontSize: 35, marginRight: 10}} /> <b>Funny Movies</b> 
-            </a>
+            </Link>
             <p style={{fontSize:20, margin: 20}}>Welcome {user}</p>
             <button 
                 type="button" 
@@ -137,11 +141,10 @@ class Share extends React.Component {
                                 type="button" 
                                 className="btn btn-primary mx-auto"
                                 onClick={()=>this.newMovie()}
-                            >
+                            > 
                                 Share
                             </button>
                         </div>
-              
                     </div>
                 </div>
               </div>

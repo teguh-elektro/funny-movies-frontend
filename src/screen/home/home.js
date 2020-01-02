@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { FaHome } from "react-icons/fa";
 import {AiOutlineLike, AiOutlineDislike} from "react-icons/ai"
@@ -147,9 +148,9 @@ class Home extends React.Component {
                 (this.state.isLogin == '1') ?
                     <header className="App-header">
                     <nav className="navbar navbar-light bg-light">
-                        <a className="navbar-brand d-flex" style={{fontSize: 30, flex: 1}} href="#">
+                        <Link to={'/'} style={{fontSize: 30, flex: 1, color:"black"}}>
                         <FaHome style={{fontSize: 35, marginRight: 10}} /> <b>Funny Movies</b> 
-                        </a>
+                        </Link>
                         <p style={{fontSize:20, margin: 20}}>Welcome {user}</p>
                         <Link to={'/share'}>
                             <button 
