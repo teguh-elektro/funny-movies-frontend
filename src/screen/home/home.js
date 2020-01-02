@@ -100,6 +100,14 @@ class Home extends React.Component {
     }
 
     async sendLogin() {
+        if(this.state.email.length === 0){
+            alert("email is empty");
+            return;
+        }
+        else if(this.state.password.length === 0){
+            alert("password is empty");
+            return;
+        }
         try{
           const response = await axios({
             method: 'put',
@@ -125,6 +133,7 @@ class Home extends React.Component {
             this.setState({
               isLogin: '0'
             })
+            alert("the user was login");
           }
       }
 

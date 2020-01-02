@@ -50,9 +50,9 @@ class Share extends React.Component {
               console.log(response);
               localStorage.setItem("Login", '0');
               this.setState({
-                isLogin: '0'
+                isLogin: '0',
+                isSend: 1
               }) 
-              return( <Route path="/" />);
         }catch(error){
 
         }
@@ -90,6 +90,7 @@ class Share extends React.Component {
                 isSend: 1
               })
         }catch(error){
+            alert("the youtube URL is invalid");
             console.log(error);
         }
     }
